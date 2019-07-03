@@ -1,5 +1,5 @@
 from sys import getdefaultencoding
-with open('recipt2.txt') as f:
+with open('recipt.txt') as f:
 	inp_data_list = []
 	for line in f:
 		inp_data_list.append(line)
@@ -91,17 +91,44 @@ def lst_iter_to_lst_of_d(inp_list):
 	out_l_of_d = []
 	input_temp_list	= clean_list(repeat_until_rcpcount(count_of_chapters(inp_list),inp_list).copy())
 	for one_rcpt in input_temp_list:
-		print('one rcpt', one_rcpt)
+		#print('one rcpt', one_rcpt)
 		out_l_of_d.append(list_to_dict(one_rcpt))
 	return out_l_of_d
 # ['Omelett', '3', 'Egg | 2 | pc', 'Milk | 100 | ml', 'Tomato | 2 | pc']
 # {'Omelett': ['3', 'Egg | 2 | pc', 'Milk | 100 | ml', 'Tomato | 2 | pc']}
-# {'Omelett':[{'name':Egg,'quan':2,'meas':'pc'},{'Milk | 100 | ml'},{'Tomato | 2 | pc'}}]}
-temp_dict = {'Omelett': ['3', 'Egg | 2 | pc', 'Milk | 100 | ml', 'Tomato | 2 | pc']}
+# {'Omelett':[{'ingridient_name':Egg,'quantity':2,'meas':'pc'},{'Milk | 100 | ml'},{'Tomato | 2 | pc'}]}
+# temp_list1 = [{'Omelett': ['3', 'Egg | 2 | pc', 'Milk | 100 | ml', 'Tomato | 2 | pc']}, {'Omelssasett': ['3', 'Easgg | 2 | pc', 'Mialk | 100 | ml', 'Togato | 2 | pc']}]
 def result_to_dict_of_dicts(inp_list):
-	temp_val = inp_list[]
-	for elem in inp_list:
-		temp_val = elem
+	temp_val = []
+	temp_list = []
+	temp_dict = {}
+	out_list = []
+	res_list = []
+	for one_rcpt in inp_list:
+		#print('Odin spis ', one_rcpt)
+		for x in one_rcpt:
+			#print('key:', x, 'value:', one_rcpt[x])
+		#print('key-value on inp_list', inp_list[key], 'key: ', key, 'inp_list key type', type(inp_list[key]))
+			temp_val = one_rcpt[x]
+				# удаляю число ингридиентов
+			del temp_val[0]
+				# итерирую по списку
+			for elem in temp_val:
+				temp_dict['ingridient_name'] = elem.split('|')[0]
+				temp_dict['quantity'] = elem.split('|')[1]
+				temp_dict['measure'] = elem.split('|')[2]
+				print('temp_dict:', temp_dict)
+				out_list.append(temp_dict)
+			one_rcpt[x] = out_list
+			#print('dict-to-list-todict-one list', out_list)#one_rcpt[x])
+		res_list.append(one_rcpt)
+	return res_list
+
+# проверяю словарь из словарей
+#print('словарь из словарей из тестового списка. ',result_to_dict_of_dicts(temp_list1) )
+
+
+
 
 # проверяю счетчик
 print('Количество абзацев: ', count_of_chapters(inp_data_list))
@@ -118,7 +145,9 @@ print('Количество абзацев: ', count_of_chapters(inp_data_list))
 # проверяю основной цикл
 print('Совсем конец', repeat_until_rcpcount(count_of_chapters(inp_data_list),inp_data_list))
 print('--- --- ---            --- --- ---')
-half_ready = clean_list(repeat_until_rcpcount(count_of_chapters(inp_data_list),inp_data_list))
-print('Очищеный', half_ready)
+#half_ready = clean_list(repeat_until_rcpcount(count_of_chapters(inp_data_list),inp_data_list))
+#print('Очищеный', half_ready)
 print('--- --- ---            --- --- ---')
 print('List - to - dict', lst_iter_to_lst_of_d(inp_data_list))
+print('--- --- ---            --- --- ---')
+#print('List - to - dict of dicts', result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list)))

@@ -1,0 +1,26 @@
+Omelett
+3
+Egg | 2 | pc
+Milk | 100 | ml
+Tomato | 2 | pc
+
+Chinese Duck
+4
+Duck | 1 | pc
+Water | 2 | l
+Honey | 3 | tablesp.
+Soyabeen souce | 60 | ml
+
+Roasted potato
+3
+Potato | 1 | kg
+Garlic | 3 | pc
+Cheese Gouda | 100 | g
+
+Fajitos
+5
+Beef | 500 | g
+Sweet Pepper | 1 | pc
+Bread | 2 | pc
+Vinegar | 1 | tablesp.
+Tomato | 2 | pc

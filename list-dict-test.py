@@ -36,3 +36,11 @@ for x in input_list2:
 	i = i + 1
 print('temp_dict',temp_dict)		
 
+
+in_list3 = ['aa', 'bb', 'cc']
+out_dict3 = {}
+out_dict3['ing'] = in_list3[0]
+out_dict3['qua'] = in_list3[1]
+out_dict3['mea'] = in_list3[2]
+
+print('out_dic', out_dict3)

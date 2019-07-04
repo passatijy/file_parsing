@@ -28,6 +28,7 @@ out_list = list(range(int(input_list2[0])))
 del input_list2[0]
 i = 0
 for x in input_list2:
+	temp_dict = {}
 	print('elem: ', x)
 	temp_dict['ingridient_name'] = x.split('|')[0]
 	out_list[i] = temp_dict

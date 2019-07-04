@@ -1,3 +1,18 @@
+'''
+cook_book = {
+  'Омлет': [
+    {'ingridient_name': 'Яйцо', 'quantity': 2, 'measure': 'шт.'},
+    {'ingridient_name': 'Молоко', 'quantity': 100, 'measure': 'мл'},
+    {'ingridient_name': 'Помидор', 'quantity': 2, 'measure': 'шт'}
+    ],
+  'Утка по-пекински': [
+    {'ingridient_name': 'Утка', 'quantity': 1, 'measure': 'шт'},
+    {'ingridient_name': 'Вода', 'quantity': 2, 'measure': 'л'},
+    {'ingridient_name': 'Мед', 'quantity': 3, 'measure': 'ст.л'},
+    {'ingridient_name': 'Соевый соус', 'quantity': 60, 'measure': 'мл'}
+    ],
+'''
+
 #for one_rcpt in [{'oml':['3','eg|3|sh','tom|5|sh']}]:
 #for x in {'oml':['3','eg|3|sh','tom|5|sh']}:
 #	temp_val = one_rcpt[x]

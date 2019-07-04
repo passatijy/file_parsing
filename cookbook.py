@@ -1,4 +1,5 @@
 from sys import getdefaultencoding
+import json 
 with open('recipt.txt') as f:
 	inp_data_list = []
 	for line in f:
@@ -113,12 +114,8 @@ def result_to_dict_of_dicts(inp_list):
 
 # проверяю словарь из словарей
 #print('словарь из словарей из тестового списка. ',result_to_dict_of_dicts(temp_list1) )
-
-
-
-
 # проверяю счетчик
-print('Количество абзацев: ', count_of_chapters(inp_data_list))
+#print('Количество абзацев: ', count_of_chapters(inp_data_list))
 # проверяю генерацию рецепта из неразделенного списка
 #end_pos = create_recpt(inp_data_list)[1]
 #new_list = clean_after_one_rcpt(inp_data_list,end_pos)
@@ -130,11 +127,12 @@ print('Количество абзацев: ', count_of_chapters(inp_data_list))
 #print('Потом', new_list)
 
 # проверяю основной цикл
-print('Совсем конец', repeat_until_rcpcount(count_of_chapters(inp_data_list),inp_data_list))
-print('--- --- ---            --- --- ---')
+#print('Совсем конец', repeat_until_rcpcount(count_of_chapters(inp_data_list),inp_data_list))
+#print('--- --- ---            --- --- ---')
 #half_ready = clean_list(repeat_until_rcpcount(count_of_chapters(inp_data_list),inp_data_list))
 #print('Очищеный', half_ready)
-print('--- --- ---            --- --- ---')
-print('List - to - dict', lst_iter_to_lst_of_d(inp_data_list))
-print('--- --- ---            --- --- ---')
-print('List - to - dict of dicts', result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list)))
+#print('--- --- ---            --- --- ---')
+#print('List - to - dict', lst_iter_to_lst_of_d(inp_data_list))
+#print('--- --- ---            --- --- ---')
+#print('List - to - dict of dicts', result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list)))
+print('cookbook result:', json.dumps(result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list)), sort_keys=True, indent=4, separators = (',',':')))

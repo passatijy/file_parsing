@@ -99,30 +99,17 @@ def lst_iter_to_lst_of_d(inp_list):
 # {'Omelett':[{'ingridient_name':Egg,'quantity':2,'meas':'pc'},{'Milk | 100 | ml'},{'Tomato | 2 | pc'}]}
 # temp_list1 = [{'Omelett': ['3', 'Egg | 2 | pc', 'Milk | 100 | ml', 'Tomato | 2 | pc']}, {'Omelssasett': ['3', 'Easgg | 2 | pc', 'Mialk | 100 | ml', 'Togato | 2 | pc']}]
 def result_to_dict_of_dicts(inp_list):
-	temp_val = []
-	temp_list = []
-	temp_dict = {}
-	out_list = []
-	res_list = []
-	for one_rcpt in inp_list:
-		#print('Odin spis ', one_rcpt)
-		for x in one_rcpt:
-			#print('key:', x, 'value:', one_rcpt[x])
-		#print('key-value on inp_list', inp_list[key], 'key: ', key, 'inp_list key type', type(inp_list[key]))
-			temp_val = one_rcpt[x]
-				# удаляю число ингридиентов
-			del temp_val[0]
-				# итерирую по списку
-			for elem in temp_val:
-				temp_dict['ingridient_name'] = elem.split('|')[0]
-				temp_dict['quantity'] = elem.split('|')[1]
-				temp_dict['measure'] = elem.split('|')[2]
-				print('temp_dict:', temp_dict)
-				out_list.append(temp_dict)
-			one_rcpt[x] = out_list
-			#print('dict-to-list-todict-one list', out_list)#one_rcpt[x])
-		res_list.append(one_rcpt)
-	return res_list
+	big_in_list = inp_list.copy()
+	k = 0
+	while k < len(big_in_list):
+		in_dict = big_in_list[k]
+		for x in in_dict:
+			in_list = in_dict[x]
+			del in_list[0]
+			out_list = [dict(zip(["ingridient_name", "quantity", "measure"], elem.split('|'))) for elem in in_list]
+			big_in_list[k][x] = out_list
+		k += 1
+	return big_in_list
 
 # проверяю словарь из словарей
 #print('словарь из словарей из тестового списка. ',result_to_dict_of_dicts(temp_list1) )
@@ -150,4 +137,4 @@ print('--- --- ---            --- --- ---')
 print('--- --- ---            --- --- ---')
 print('List - to - dict', lst_iter_to_lst_of_d(inp_data_list))
 print('--- --- ---            --- --- ---')
-#print('List - to - dict of dicts', result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list)))
+print('List - to - dict of dicts', result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list)))

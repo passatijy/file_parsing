@@ -1,12 +1,12 @@
 from sys import getdefaultencoding
 import json 
-with open('recipt.txt') as f:
+with open('recipt.txt', encoding = 'utf-8') as f:
 	inp_data_list = []
 	for line in f:
 		inp_data_list.append(line)
 f.closed
 
-# Сколько рецептов
+# Сколько рецептов:
 def count_of_chapters(input_list):
 	counter = 0
 	'''
@@ -71,20 +71,15 @@ def clean_list(inp_list):
 		i = 0
 		while i < len(inp_list[k]):
 			inp_list[k][i] = inp_list[k][i].replace('\n','')
-			#print('заменили', inp_list[k][i])
 			i = i + 1
 		out_list.append(inp_list[k])
-		#print('Элемент списка номер :', k, ' является ', inp_list[k])
 		k = k + 1
 	return out_list
-# ['Omelett', '3', 'Egg | 2 | pc', 'Milk | 100 | ml', 'Tomato | 2 | pc']
-# {'Omelett': ['3', 'Egg | 2 | pc', 'Milk | 100 | ml', 'Tomato | 2 | pc']}
-# {'Omelett':[{'name':Egg,'quan':2,'meas':'pc'},{'Milk | 100 | ml'},{'Tomato | 2 | pc'}}]}
+
 def list_to_dict(inp_list):
 	out_dict = {}
 	out_dict_key = ''
 	out_dict_key = inp_list.pop(0)
-	#print('Первый элемент',inp_list.pop(0),'остальное', inp_list)
 	out_dict[out_dict_key] = inp_list
 	return out_dict
 
@@ -92,13 +87,9 @@ def lst_iter_to_lst_of_d(inp_list):
 	out_l_of_d = []
 	input_temp_list	= clean_list(repeat_until_rcpcount(count_of_chapters(inp_list),inp_list).copy())
 	for one_rcpt in input_temp_list:
-		#print('one rcpt', one_rcpt)
 		out_l_of_d.append(list_to_dict(one_rcpt))
 	return out_l_of_d
-# ['Omelett', '3', 'Egg | 2 | pc', 'Milk | 100 | ml', 'Tomato | 2 | pc']
-# {'Omelett': ['3', 'Egg | 2 | pc', 'Milk | 100 | ml', 'Tomato | 2 | pc']}
-# {'Omelett':[{'ingridient_name':Egg,'quantity':2,'meas':'pc'},{'Milk | 100 | ml'},{'Tomato | 2 | pc'}]}
-# temp_list1 = [{'Omelett': ['3', 'Egg | 2 | pc', 'Milk | 100 | ml', 'Tomato | 2 | pc']}, {'Omelssasett': ['3', 'Easgg | 2 | pc', 'Mialk | 100 | ml', 'Togato | 2 | pc']}]
+
 def result_to_dict_of_dicts(inp_list):
 	big_in_list = inp_list.copy()
 	k = 0
@@ -112,27 +103,66 @@ def result_to_dict_of_dicts(inp_list):
 		k += 1
 	return big_in_list
 
-# проверяю словарь из словарей
-#print('словарь из словарей из тестового списка. ',result_to_dict_of_dicts(temp_list1) )
-# проверяю счетчик
-#print('Количество абзацев: ', count_of_chapters(inp_data_list))
-# проверяю генерацию рецепта из неразделенного списка
-#end_pos = create_recpt(inp_data_list)[1]
-#new_list = clean_after_one_rcpt(inp_data_list,end_pos)
-#print('Собраный рецепт: ', create_recpt(inp_data_list)[0], 'position: ', create_recpt(inp_data_list)[1])
-#print('Default encoding', getdefaultencoding())
-#print('проверяю зачистку добавленых')
+def get_shop_list_by_dishes(dishes, person_count, menu):
+	result = {}
+	for ordered_dish in dishes:
+		print('Dish:', ordered_dish)
+		for dish in menu:
+			if list(dish.keys())[0] == ordered_dish: 
+				#print('Dish(second cycle):', dish)
+				for ingridient in dish:
+					print('ingridient ', ingridient)
+					temp_dict = {}
+					for dish_elem in dish[ingridient]:
+						if dish_elem['ingridient_name'] not in result.keys():
+							print('dish_elem[ingridient_name]', dish_elem['ingridient_name'])
+							print('result values: ', result.keys())
+							print('dish elem: ', dish_elem)
+							for key in dish_elem:
+								if key == 'quantity':
+									temp_dict['quantity'] = int(dish_elem[key]) * person_count
+								if key == 'measure':
+									temp_dict['measure'] = dish_elem[key]
+							#print('Temp dict: ', temp_dict)
+							result[dish_elem['ingridient_name']] = temp_dict.copy()
+						else: 
+							print('dish elem: ', dish_elem, 'DUPLICATE FOUND!!!!')
+							for key in dish_elem:
+								if key == 'quantity':
+									temp_dict['quantity'] = (int(temp_dict['quantity']) + int(dish_elem[key])) * person_count
+								if key == 'measure':
+									temp_dict['measure'] = dish_elem[key]
+							#print('Temp dict: ', temp_dict)
+							result[dish_elem['ingridient_name']] = temp_dict.copy()
+						print('---------------------------------------------------------------------------')
+					print('===================================dish finished=====================')
+	return result
 
-#print('Входной', inp_data_list)
-#print('Потом', new_list)
+#print('Zakupka:', json.dumps(get_shop_list_by_dishes(['Omelett','Fajitos'],3,menu),sort_keys=True, indent=4, separators = (',',':')))
 
-# проверяю основной цикл
-#print('Совсем конец', repeat_until_rcpcount(count_of_chapters(inp_data_list),inp_data_list))
-#print('--- --- ---            --- --- ---')
-#half_ready = clean_list(repeat_until_rcpcount(count_of_chapters(inp_data_list),inp_data_list))
-#print('Очищеный', half_ready)
-#print('--- --- ---            --- --- ---')
-#print('List - to - dict', lst_iter_to_lst_of_d(inp_data_list))
-#print('--- --- ---            --- --- ---')
-#print('List - to - dict of dicts', result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list)))
-print('cookbook result:', json.dumps(result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list)), sort_keys=True, indent=4, separators = (',',':')))
+#print('cookbook result:', json.dumps(result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list)), sort_keys=True, indent=4, separators = (',',':')))
+
+
+def main_routine():
+	menu = result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list))
+	menu_list=[]
+	repeat = True
+	while repeat == True:
+		inp = input('Введите действие: q - выход; m - показать меню, l - составить список покупок:')
+		if inp == 'q':
+			repeat = False
+		elif inp == 'm':
+			print('Menu: ', json.dumps(menu, sort_keys=True, indent=2, separators = (',',':')))
+		elif inp == 'l':
+			for k in menu:
+
+				menu_list.append(str(k.keys()).replace('dict_keys',''))
+			print('доступные блюда', menu_list)
+			inp_dish_list = input('         введите список блюд: ')
+			inp_user_count = input('  введите количество персон: ')
+			print('Список закупок:', json.dumps(get_shop_list_by_dishes(['Omelett','Fajitos'],3,menu),sort_keys=True, indent=4, separators = (',',':')))
+		else:
+			print('Неверный ввод, повторите.')
+
+main_routine()
+

@@ -106,46 +106,32 @@ def result_to_dict_of_dicts(inp_list):
 def get_shop_list_by_dishes(dishes, person_count, menu):
 	result = {}
 	for ordered_dish in dishes:
-		print('Dish:', ordered_dish)
 		for dish in menu:
 			if list(dish.keys())[0] == ordered_dish: 
-				#print('Dish(second cycle):', dish)
 				for ingridient in dish:
-					print('ingridient ', ingridient)
 					temp_dict = {}
 					for dish_elem in dish[ingridient]:
 						if dish_elem['ingridient_name'] not in result.keys():
-							print('dish_elem[ingridient_name]', dish_elem['ingridient_name'])
-							print('result values: ', result.keys())
-							print('dish elem: ', dish_elem)
 							for key in dish_elem:
 								if key == 'quantity':
 									temp_dict['quantity'] = int(dish_elem[key]) * person_count
 								if key == 'measure':
 									temp_dict['measure'] = dish_elem[key]
-							#print('Temp dict: ', temp_dict)
 							result[dish_elem['ingridient_name']] = temp_dict.copy()
 						else: 
-							print('dish elem: ', dish_elem, 'DUPLICATE FOUND!!!!')
 							for key in dish_elem:
 								if key == 'quantity':
 									temp_dict['quantity'] = (int(temp_dict['quantity']) + int(dish_elem[key])) * person_count
 								if key == 'measure':
 									temp_dict['measure'] = dish_elem[key]
-							#print('Temp dict: ', temp_dict)
 							result[dish_elem['ingridient_name']] = temp_dict.copy()
-						print('---------------------------------------------------------------------------')
-					print('===================================dish finished=====================')
 	return result
 
-#print('Zakupka:', json.dumps(get_shop_list_by_dishes(['Omelett','Fajitos'],3,menu),sort_keys=True, indent=4, separators = (',',':')))
-
-#print('cookbook result:', json.dumps(result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list)), sort_keys=True, indent=4, separators = (',',':')))
-
-
 def main_routine():
-	menu = result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list))
 	menu_list=[]
+	menu = result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list))
+	for k in menu:
+		menu_list.append(str(k.keys()).replace('dict_keys',''))
 	repeat = True
 	while repeat == True:
 		inp = input('Введите действие: q - выход; m - показать меню, l - составить список покупок:')
@@ -154,13 +140,10 @@ def main_routine():
 		elif inp == 'm':
 			print('Menu: ', json.dumps(menu, sort_keys=True, indent=2, separators = (',',':')))
 		elif inp == 'l':
-			for k in menu:
-
-				menu_list.append(str(k.keys()).replace('dict_keys',''))
 			print('доступные блюда', menu_list)
 			inp_dish_list = input('         введите список блюд: ')
 			inp_user_count = input('  введите количество персон: ')
-			print('Список закупок:', json.dumps(get_shop_list_by_dishes(['Omelett','Fajitos'],3,menu),sort_keys=True, indent=4, separators = (',',':')))
+			print('Список закупок:', json.dumps(get_shop_list_by_dishes(list(inp_dish_list),inp_user_count,menu),sort_keys=True, indent=4, separators = (',',':')))
 		else:
 			print('Неверный ввод, повторите.')
 

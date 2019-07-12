@@ -1,6 +1,8 @@
 from sys import getdefaultencoding
 import json 
-with open('recipt.txt', encoding = 'utf-8') as f:
+import codecs
+
+with open('recipt.txt', encoding = 'utf8') as f:
 	inp_data_list = []
 	for line in f:
 		inp_data_list.append(line)
@@ -130,6 +132,7 @@ def get_shop_list_by_dishes(dishes, person_count, menu):
 def main_routine():
 	menu_list=[]
 	menu = result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list))
+	print('menu:', menu)
 	for k in menu:
 		menu_list.append(str(k.keys()).replace('dict_keys',''))
 	repeat = True
@@ -141,11 +144,25 @@ def main_routine():
 			print('Menu: ', json.dumps(menu, sort_keys=True, indent=2, separators = (',',':')))
 		elif inp == 'l':
 			print('доступные блюда', menu_list)
-			inp_dish_list = input('         введите список блюд: ')
-			inp_user_count = input('  введите количество персон: ')
-			print('Список закупок:', json.dumps(get_shop_list_by_dishes(list(inp_dish_list),inp_user_count,menu),sort_keys=True, indent=4, separators = (',',':')))
+			inp_dish_list=[]
+			repeat_inp = True
+			while repeat_inp:
+				inp_one_dish = input('         введите одно блюдо или q для выхода из ввода блюд: ')
+				if inp_one_dish == 'q':
+					repeat_inp = False
+				else:
+					inp_dish_list.append(inp_one_dish)
+			inp_user_count = int(input('  введите количество персон: '))
+			bying_list = get_shop_list_by_dishes(inp_dish_list, inp_user_count, menu)
+			print('Список закупок:', json.dumps(bying_list,sort_keys=True, indent=4, separators = (',',':'), ensure_ascii=False))
 		else:
 			print('Неверный ввод, повторите.')
 
 main_routine()
+'''
+print('Menu:', result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list)))
+inp_dish_list = input('         введите список блюд через запятую: ').split(',')
+inp_user_count = int(input('  введите количество персон: '))
+print('Bying list(Omelett):', json.dumps(get_shop_list_by_dishes(inp_dish_list, inp_user_count, result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list))),sort_keys=False, indent=4))
 
+'''

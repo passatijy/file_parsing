@@ -159,10 +159,3 @@ def main_routine():
 			print('Неверный ввод, повторите.')
 
 main_routine()
-'''
-print('Menu:', result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list)))
-inp_dish_list = input('         введите список блюд через запятую: ').split(',')
-inp_user_count = int(input('  введите количество персон: '))
-print('Bying list(Omelett):', json.dumps(get_shop_list_by_dishes(inp_dish_list, inp_user_count, result_to_dict_of_dicts(lst_iter_to_lst_of_d(inp_data_list))),sort_keys=False, indent=4))
-
-'''
